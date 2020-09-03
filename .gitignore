@@ -130,3 +130,6 @@ dmypy.json
 
 #Visual Studio Code stuff
 .vscode
+
+# Dev files and folders
+dev
