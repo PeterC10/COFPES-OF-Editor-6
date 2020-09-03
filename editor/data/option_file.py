@@ -10,6 +10,8 @@ from .option_file_data import (
     OF_KEY_PC,
 )
 
+from .club import Club
+
 from ..utils.common_functions import (
     bytes_to_int,
     zero_fill_right_shift,
@@ -23,9 +25,16 @@ class OptionFile:
     of_key = OF_KEY
     of_key_pc = OF_KEY_PC
 
-    data = bytearray()
-    file_name = ""
-    game_type = None
+    def __init__(self, file_location):
+        self.file_location = file_location
+
+        self.data = bytearray()
+        self.file_name = ""
+        self.game_type = None
+
+        self.read_option_file()
+
+        self.set_clubs()
 
     def get_game_type(self, file_name):
         """
@@ -37,11 +46,11 @@ class OptionFile:
         }
         return game_type_map.get(file_name)
 
-    def read_option_file(self, of_file_location):
+    def read_option_file(self):
         """
         Decrypt supplied file and set OF data.
         """
-        of_file = open(of_file_location, "rb")
+        of_file = open(self.file_location, "rb")
         file_name = os.path.basename(of_file.name)
         self.file_name = file_name
         self.game_type = self.get_game_type(file_name)
@@ -55,10 +64,12 @@ class OptionFile:
 
         return True
 
-    def save_option_file(self, of_file_location):
+    def save_option_file(self, file_location=None):
         """
         Save OF data to supplied file.
         """
+        file_location = self.file_location = file_location or self.file_location
+
         self.data[45] = 1
         self.data[46] = 1
         self.data[5938] = 1
@@ -68,7 +79,7 @@ class OptionFile:
         self.checksums()
         self.convert_data()
 
-        of_file = open(of_file_location, "wb")
+        of_file = open(file_location, "wb")
         of_file.write(self.data)
         of_file.close()
 
@@ -167,6 +178,15 @@ class OptionFile:
             self.data[self.of_block[i] - 5] = (
                 zero_fill_right_shift(checksum, 24) & 0x000000FF
             )
+
+    def set_clubs(self):
+        """
+        Load all clubs from OF data and add to clubs list.
+        """
+        self.clubs = []
+        for i in range(Club.total):
+            club = Club(self, i)
+            self.clubs.append(club)
 
 
 class GameType(Enum):

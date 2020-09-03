@@ -1,6 +1,3 @@
-from .option_file import OptionFile
-
-
 class Club:
     total = 140
     start_address = 751472
