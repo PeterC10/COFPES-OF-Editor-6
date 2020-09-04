@@ -1,4 +1,5 @@
 import os
+import itertools
 
 from enum import Enum, auto
 
@@ -11,6 +12,7 @@ from .option_file_data import (
 )
 
 from .club import Club
+from .player import Player
 
 from ..utils.common_functions import (
     bytes_to_int,
@@ -35,6 +37,7 @@ class OptionFile:
         self.read_option_file()
 
         self.set_clubs()
+        self.set_players()
 
     def get_game_type(self, file_name):
         """
@@ -187,6 +190,18 @@ class OptionFile:
         for i in range(Club.total):
             club = Club(self, i)
             self.clubs.append(club)
+
+    def set_players(self):
+        """
+        Load all players from OF data and add to players list.
+        """
+        self.players = []
+        for i in itertools.chain(
+            range(1, Player.total + 1),
+            range(Player.first_edit, Player.last_edit),
+        ):
+            player = Player(self, i)
+            self.players.append(player)
 
 
 class GameType(Enum):
