@@ -14,10 +14,7 @@ from .option_file_data import (
 from .club import Club
 from .player import Player
 
-from ..utils.common_functions import (
-    bytes_to_int,
-    zero_fill_right_shift,
-)
+from .utils.common_functions import bytes_to_int, zero_fill_right_shift
 
 
 class OptionFile:
