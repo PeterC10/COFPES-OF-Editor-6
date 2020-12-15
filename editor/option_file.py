@@ -131,7 +131,6 @@ class OptionFile:
         """
         Encrypt OF.
         """
-        count = 0
         for i in range(1, len(self.of_block)):
             k = 0
             a = self.of_block[i]
@@ -139,7 +138,6 @@ class OptionFile:
                 if a + 4 > self.of_block[i] + self.of_block_size[i]:
                     break
 
-                count += 1
                 p = bytes_to_int(self.data, a)
                 c = self.of_key[k] + ((p ^ 0x7AB3684C) - 0x7AB3684C)
 
@@ -158,15 +156,13 @@ class OptionFile:
         """
         Set checksums.
         """
-        for i in range(1, len(self.of_block)):
+        for i in range(0, len(self.of_block)):
             checksum = 0
-            while True:
-                a = self.of_block[i]
-                checksum += bytes_to_int(self.data, a)
 
-                a += 4
-                if a <= self.of_block[i] + self.of_block_size[i]:
-                    break
+            for a in range(
+                self.of_block[i], self.of_block[i] + self.of_block_size[i], 4
+            ):
+                checksum += bytes_to_int(self.data, a)
 
             self.data[self.of_block[i] - 8] = checksum & 0x000000FF
             self.data[self.of_block[i] - 7] = (
