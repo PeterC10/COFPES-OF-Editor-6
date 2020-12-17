@@ -9,3 +9,7 @@ def zero_fill_right_shift(val, n):
 
 def string_to_code_value(val):
     return val.lower().replace(" ", "_")
+
+
+def get_base_byte_value(b, bf):
+    return (b // bf) * bf
