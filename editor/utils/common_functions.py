@@ -13,3 +13,9 @@ def string_to_code_value(val):
 
 def get_base_byte_value(b, bf):
     return (b // bf) * bf
+
+
+def get_lowest_byte_value(b, bf):
+    bb = get_base_byte_value(b, bf)
+    lb = b - bb
+    return lb
