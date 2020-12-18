@@ -1,5 +1,3 @@
-from bidict import bidict
-
 from editor.attributes.player.player_attribute import (
     PlayerAttribute,
     PlayerAttributeTypes,
