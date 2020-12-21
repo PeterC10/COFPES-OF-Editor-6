@@ -19,3 +19,7 @@ def get_lowest_byte_value(b, bf):
     bb = get_base_byte_value(b, bf)
     lb = b - bb
     return lb
+
+
+def round_down(n, d):
+    return n - (n % d)
