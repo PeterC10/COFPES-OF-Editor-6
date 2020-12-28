@@ -3,6 +3,10 @@ from editor.attributes.player.player_attribute import (
     PlayerAttributeTypes,
 )
 
+from editor.attributes.player.player_attribute_option import (
+    PlayerAttributeOption,
+)
+
 
 class PlayerAttributeWristbandType(PlayerAttribute):
     @classmethod
@@ -34,9 +38,12 @@ class PlayerAttributeWristbandType(PlayerAttribute):
         wristband_color_label = self.parent.wristband_color.get_label()
 
         # Only set wristband type if colour is already set, otherwise use N/None
-        full_label = (self.parent.opt_n, self.parent.opt_none)
+        full_label = (
+            PlayerAttributeOption.OPT_N,
+            PlayerAttributeOption.OPT_NONE,
+        )
 
-        if wristband_color_label != self.parent.opt_none:
+        if wristband_color_label != PlayerAttributeOption.OPT_NONE:
             full_label = (label, wristband_color_label)
 
         return self.parent.set_value_from_label(full_label)

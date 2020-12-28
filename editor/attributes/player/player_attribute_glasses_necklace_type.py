@@ -5,6 +5,10 @@ from editor.attributes.player.player_attribute import (
     PlayerAttributeTypes,
 )
 
+from editor.attributes.player.player_attribute_option import (
+    PlayerAttributeOption,
+)
+
 from editor.attributes.player.player_attribute_glasses_type import (
     PlayerAttributeGlassesType,
 )
@@ -15,10 +19,6 @@ from editor.attributes.player.player_attribute_necklace_type import (
 
 
 class PlayerAttributeGlassesNecklaceType(PlayerAttribute):
-    opt_n = "N"
-    opt_1 = "1"
-    opt_2 = "2"
-
     @classmethod
     def att_class_name(cls):
         return "Glasses/Necklace Type"
@@ -43,15 +43,15 @@ class PlayerAttributeGlassesNecklaceType(PlayerAttribute):
         # Note: 3 is not valid in-game
         options_by_value = bidict(
             {
-                0: (cls.opt_n, cls.opt_n),
-                1: (cls.opt_1, cls.opt_n),
-                2: (cls.opt_2, cls.opt_n),
-                4: (cls.opt_n, cls.opt_1),
-                5: (cls.opt_1, cls.opt_1),
-                6: (cls.opt_2, cls.opt_1),
-                8: (cls.opt_n, cls.opt_2),
-                9: (cls.opt_1, cls.opt_2),
-                10: (cls.opt_2, cls.opt_2),
+                0: (PlayerAttributeOption.OPT_N, PlayerAttributeOption.OPT_N),
+                1: (PlayerAttributeOption.OPT_1, PlayerAttributeOption.OPT_N),
+                2: (PlayerAttributeOption.OPT_2, PlayerAttributeOption.OPT_N),
+                4: (PlayerAttributeOption.OPT_N, PlayerAttributeOption.OPT_1),
+                5: (PlayerAttributeOption.OPT_1, PlayerAttributeOption.OPT_1),
+                6: (PlayerAttributeOption.OPT_2, PlayerAttributeOption.OPT_1),
+                8: (PlayerAttributeOption.OPT_N, PlayerAttributeOption.OPT_2),
+                9: (PlayerAttributeOption.OPT_1, PlayerAttributeOption.OPT_2),
+                10: (PlayerAttributeOption.OPT_2, PlayerAttributeOption.OPT_2),
             }
         )
         return options_by_value

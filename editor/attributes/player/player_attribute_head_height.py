@@ -5,26 +5,14 @@ from editor.attributes.player.player_attribute import (
     PlayerAttributeTypes,
 )
 
+from editor.attributes.player.player_attribute_option import (
+    PlayerAttributeOption,
+)
+
 from editor.utils.common_functions import get_base_byte_value
 
 
 class PlayerAttributeHeadHeight(PlayerAttribute):
-    opt_m7 = "-7"
-    opt_m6 = "-6"
-    opt_m5 = "-5"
-    opt_m4 = "-4"
-    opt_m3 = "-3"
-    opt_m2 = "-2"
-    opt_m1 = "-1"
-    opt_0 = "0"
-    opt_1 = "1"
-    opt_2 = "2"
-    opt_3 = "3"
-    opt_4 = "4"
-    opt_5 = "5"
-    opt_6 = "6"
-    opt_7 = "7"
-
     @classmethod
     def att_class_name(cls):
         return "Head Height"
@@ -48,21 +36,21 @@ class PlayerAttributeHeadHeight(PlayerAttribute):
         """
         options_by_value = bidict(
             {
-                0: cls.opt_m7,
-                16: cls.opt_m6,
-                32: cls.opt_m5,
-                48: cls.opt_m4,
-                64: cls.opt_m3,
-                80: cls.opt_m2,
-                96: cls.opt_m1,
-                112: cls.opt_0,
-                128: cls.opt_1,
-                144: cls.opt_2,
-                160: cls.opt_3,
-                176: cls.opt_4,
-                192: cls.opt_5,
-                208: cls.opt_6,
-                224: cls.opt_7,
+                0: PlayerAttributeOption.OPT_M7,
+                16: PlayerAttributeOption.OPT_M6,
+                32: PlayerAttributeOption.OPT_M5,
+                48: PlayerAttributeOption.OPT_M4,
+                64: PlayerAttributeOption.OPT_M3,
+                80: PlayerAttributeOption.OPT_M2,
+                96: PlayerAttributeOption.OPT_M1,
+                112: PlayerAttributeOption.OPT_0,
+                128: PlayerAttributeOption.OPT_1,
+                144: PlayerAttributeOption.OPT_2,
+                160: PlayerAttributeOption.OPT_3,
+                176: PlayerAttributeOption.OPT_4,
+                192: PlayerAttributeOption.OPT_5,
+                208: PlayerAttributeOption.OPT_6,
+                224: PlayerAttributeOption.OPT_7,
             }
         )
         return options_by_value

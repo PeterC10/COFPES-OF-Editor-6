@@ -7,6 +7,10 @@ from editor.attributes.player.player_attribute import (
     PlayerAttributeTypes,
 )
 
+from editor.attributes.player.player_attribute_option import (
+    PlayerAttributeOption,
+)
+
 from editor.attributes.player.player_attribute_shoulder_width import (
     PlayerAttributeShoulderWidth,
 )
@@ -21,15 +25,6 @@ from editor.attributes.player.player_attribute_physical_opts import (
 
 
 class PlayerAttributeShoulderWidthBandanaColor(PlayerAttribute):
-    opt_white = "White"
-    opt_black = "Black"
-    opt_red = "Red"
-    opt_blue = "Blue"
-    opt_purple = "Purple"
-    opt_cyan = "Cyan"
-    opt_yellow = "Yellow"
-    opt_green = "Green"
-
     @classmethod
     def att_class_name(cls):
         return "Shoulder Width/Bandana Color"
@@ -53,14 +48,14 @@ class PlayerAttributeShoulderWidthBandanaColor(PlayerAttribute):
         """
         options_by_value = bidict(
             {
-                0: cls.opt_white,
-                16: cls.opt_black,
-                32: cls.opt_red,
-                48: cls.opt_blue,
-                64: cls.opt_purple,
-                80: cls.opt_cyan,
-                96: cls.opt_yellow,
-                112: cls.opt_green,
+                0: PlayerAttributeOption.OPT_WHITE,
+                16: PlayerAttributeOption.OPT_BLACK,
+                32: PlayerAttributeOption.OPT_RED,
+                48: PlayerAttributeOption.OPT_BLUE,
+                64: PlayerAttributeOption.OPT_PURPLE,
+                80: PlayerAttributeOption.OPT_CYAN,
+                96: PlayerAttributeOption.OPT_YELLOW,
+                112: PlayerAttributeOption.OPT_GREEN,
             }
         )
         return options_by_value

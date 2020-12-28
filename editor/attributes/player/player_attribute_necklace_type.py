@@ -5,10 +5,6 @@ from editor.attributes.player.player_attribute import (
 
 
 class PlayerAttributeNecklaceType(PlayerAttribute):
-    option_n = "N"
-    option_1 = 1
-    option_2 = 2
-
     @classmethod
     def att_class_name(cls):
         return "Necklace Type"

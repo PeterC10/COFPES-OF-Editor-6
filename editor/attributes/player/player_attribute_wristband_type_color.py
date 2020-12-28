@@ -11,6 +11,10 @@ from editor.attributes.player.player_attribute import (
     PlayerAttributeTypes,
 )
 
+from editor.attributes.player.player_attribute_option import (
+    PlayerAttributeOption,
+)
+
 from editor.attributes.player.player_attribute_wristband_type import (
     PlayerAttributeWristbandType,
 )
@@ -21,21 +25,6 @@ from editor.attributes.player.player_attribute_wristband_color import (
 
 
 class PlayerAttributeWristbandTypeColor(PlayerAttribute):
-    opt_n = "N"
-    opt_l = "L"
-    opt_r = "R"
-    opt_b = "B"
-
-    opt_none = "None"
-    opt_white = "White"
-    opt_black = "Black"
-    opt_red = "Red"
-    opt_blue = "Blue"
-    opt_yellow = "Yellow"
-    opt_green = "Green"
-    opt_purple = "Purple"
-    opt_cyan = "Cyan"
-
     @classmethod
     def att_class_name(cls):
         return "Wristband Type/Color"
@@ -63,10 +52,10 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         """
         options_by_value = bidict(
             {
-                0: cls.opt_n,
-                8: cls.opt_l,
-                16: cls.opt_r,
-                24: cls.opt_b
+                0: PlayerAttributeOption.OPT_N,
+                8: PlayerAttributeOption.OPT_L,
+                16: PlayerAttributeOption.OPT_R,
+                24: PlayerAttributeOption.OPT_B
             }
         )
         return options_by_value
@@ -85,14 +74,14 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         """
         options_by_value = bidict(
             {
-                0: cls.opt_white,
-                32: cls.opt_black,
-                64: cls.opt_red,
-                96: cls.opt_blue,
-                128: cls.opt_yellow,
-                160: cls.opt_green,
-                192: cls.opt_purple,
-                224: cls.opt_cyan,
+                0: PlayerAttributeOption.OPT_WHITE,
+                32: PlayerAttributeOption.OPT_BLACK,
+                64: PlayerAttributeOption.OPT_RED,
+                96: PlayerAttributeOption.OPT_BLUE,
+                128: PlayerAttributeOption.OPT_YELLOW,
+                160: PlayerAttributeOption.OPT_GREEN,
+                192: PlayerAttributeOption.OPT_PURPLE,
+                224: PlayerAttributeOption.OPT_CYAN,
             }
         )
         return options_by_value
@@ -132,12 +121,12 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         return self.arry_opts_wristband_type[value]
 
     def get_wristband_color_label(self):
-        label = self.opt_none
+        label = PlayerAttributeOption.OPT_NONE
         wristband_type = self.get_wristband_type_label()
         value = self.get_value()
         value = get_base_byte_value(value, 32)
 
-        if wristband_type != self.opt_n:
+        if wristband_type != PlayerAttributeOption.OPT_N:
             label = self.arry_opts_wristband_color[value]
 
         return label
