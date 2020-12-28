@@ -1,0 +1,33 @@
+class PlayerAttributeOption:
+    OPT_NONE = "NONE"
+
+    OPT_N = "N"
+    OPT_L = "L"
+    OPT_R = "R"
+    OPT_B = "B"
+
+    OPT_0 = "0"
+    OPT_1 = "1"
+    OPT_2 = "2"
+    OPT_3 = "3"
+    OPT_4 = "4"
+    OPT_5 = "5"
+    OPT_6 = "6"
+    OPT_7 = "7"
+
+    OPT_M1 = "-1"
+    OPT_M2 = "-2"
+    OPT_M3 = "-3"
+    OPT_M4 = "-4"
+    OPT_M5 = "-5"
+    OPT_M6 = "-6"
+    OPT_M7 = "-7"
+
+    OPT_WHITE = "WHITE"
+    OPT_BLACK = "BLACK"
+    OPT_RED = "RED"
+    OPT_BLUE = "BLUE"
+    OPT_PURPLE = "PURPLE"
+    OPT_CYAN = "CYAN"
+    OPT_YELLOW = "YELLOW"
+    OPT_GREEN = "GREEN"
