@@ -1,6 +1,7 @@
 class PlayerAttributeOption:
     OPT_NONE = "NONE"
 
+    OPT_Y = "Y"
     OPT_N = "N"
     OPT_L = "L"
     OPT_R = "R"
