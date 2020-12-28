@@ -46,7 +46,7 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         return None
 
     @classmethod
-    def att_class_arry_opts_wristband_type(cls):
+    def att_class_array_opts_wristband_type(cls):
         """
         Wristband Type Opts
         """
@@ -61,14 +61,14 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         return options_by_value
 
     @property
-    def arry_opts_wristband_type(self):
+    def array_opts_wristband_type(self):
         """
         Return byte array options.
         """
-        return self.att_class_arry_opts_wristband_type()
+        return self.att_class_array_opts_wristband_type()
 
     @classmethod
-    def att_class_arry_opts_wristband_color(cls):
+    def att_class_array_opts_wristband_color(cls):
         """
         Wristband Color Opts
         """
@@ -87,11 +87,11 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         return options_by_value
 
     @property
-    def arry_opts_wristband_color(self):
+    def array_opts_wristband_color(self):
         """
         Return byte array options.
         """
-        return self.att_class_arry_opts_wristband_color()
+        return self.att_class_array_opts_wristband_color()
 
     @classmethod
     def att_class_hidden(cls):
@@ -109,7 +109,7 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         value = self.get_raw_value()
 
         # Set invalid option to no wristband
-        if value in self.arry_opts_wristband_color:
+        if value in self.array_opts_wristband_color:
             value = 0
 
         return value
@@ -118,7 +118,7 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         value = self.get_value()
         value = get_lowest_byte_value(value, 32)
         value = round_down(value, 8)
-        return self.arry_opts_wristband_type[value]
+        return self.array_opts_wristband_type[value]
 
     def get_wristband_color_label(self):
         label = PlayerAttributeOption.OPT_NONE
@@ -127,7 +127,7 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         value = get_base_byte_value(value, 32)
 
         if wristband_type != PlayerAttributeOption.OPT_N:
-            label = self.arry_opts_wristband_color[value]
+            label = self.array_opts_wristband_color[value]
 
         return label
 
@@ -142,12 +142,12 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         return True
 
     def get_value_from_label(self, label):
-        first_opt_value = self.arry_opts_wristband_type.inverse[label[0]]
+        first_opt_value = self.array_opts_wristband_type.inverse[label[0]]
 
         second_opt_value = 0
         # Only check colour if wristband type is not "None"
         if first_opt_value != 0:
-            second_opt_value = self.arry_opts_wristband_color.inverse[label[1]]
+            second_opt_value = self.array_opts_wristband_color.inverse[label[1]]
 
         return first_opt_value + second_opt_value
 
