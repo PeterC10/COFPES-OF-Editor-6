@@ -21,6 +21,7 @@ class PlayerAttributeTypes(Enum):
     Accessories = PlayerAttributeType("Accessories")
     StandardAbilities = PlayerAttributeType("Standard Abilities")
     SpecialAbilities = PlayerAttributeType("Special Abilities")
+    Mixed = PlayerAttributeType("Mixed")
 
 
 class PlayerAttribute(ABC):
