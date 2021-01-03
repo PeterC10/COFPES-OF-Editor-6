@@ -32,3 +32,8 @@ class PlayerAttributeOption:
     OPT_CYAN = "CYAN"
     OPT_YELLOW = "YELLOW"
     OPT_GREEN = "GREEN"
+    OPT_SAME = "SAME"
+
+    OPT_SHORT = "SHORT"
+    OPT_STANDARD = "STANDARD"
+    OPT_LONG = "LONG"
