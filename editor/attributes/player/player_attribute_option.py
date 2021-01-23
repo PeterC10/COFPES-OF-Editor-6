@@ -37,3 +37,4 @@ class PlayerAttributeOption:
     OPT_SHORT = "SHORT"
     OPT_STANDARD = "STANDARD"
     OPT_LONG = "LONG"
+    OPT_AUTO = "AUTO"
