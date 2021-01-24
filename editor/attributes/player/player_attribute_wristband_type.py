@@ -38,12 +38,19 @@ class PlayerAttributeWristbandType(PlayerAttribute):
         wristband_color_label = self.parent.wristband_color.get_label()
 
         # Only set wristband type if colour is already set, otherwise use N/None
-        full_label = (
-            PlayerAttributeOption.OPT_N,
-            PlayerAttributeOption.OPT_NONE,
-        )
+        wristband_type_label = PlayerAttributeOption.OPT_N
+        wristband_color_label = PlayerAttributeOption.OPT_NONE
+        necklace_color_label = self.parent.necklace_color.get_label()
+
 
         if wristband_color_label != PlayerAttributeOption.OPT_NONE:
-            full_label = (label, wristband_color_label)
+            wristband_type_label = label
+            wristband_color_label = self.parent.wristband_color.get_label()
+
+        full_label = (
+            wristband_type_label,
+            wristband_color_label,
+            necklace_color_label,
+        )
 
         return self.parent.set_value_from_label(full_label)

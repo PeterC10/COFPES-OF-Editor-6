@@ -23,11 +23,15 @@ from editor.attributes.player.player_attribute_wristband_color import (
     PlayerAttributeWristbandColor,
 )
 
+from editor.attributes.player.player_attribute_necklace_color import (
+    PlayerAttributeNecklaceColor,
+)
 
-class PlayerAttributeWristbandTypeColor(PlayerAttribute):
+
+class PlayerAttributeWristbandTypeColorNecklaceColor(PlayerAttribute):
     @classmethod
     def att_class_name(cls):
-        return "Wristband Type/Color"
+        return "Wristband Type/Color/Necklace Color"
 
     @classmethod
     def att_class_type(cls):
@@ -55,7 +59,7 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
                 0: PlayerAttributeOption.OPT_N,
                 8: PlayerAttributeOption.OPT_L,
                 16: PlayerAttributeOption.OPT_R,
-                24: PlayerAttributeOption.OPT_B
+                24: PlayerAttributeOption.OPT_B,
             }
         )
         return options_by_value
@@ -92,6 +96,32 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         Return byte array options.
         """
         return self.att_class_array_opts_wristband_color()
+
+    @classmethod
+    def att_class_array_opts_necklace_color(cls):
+        """
+        Necklace Color Opts
+        """
+        options_by_value = bidict(
+            {
+                0: PlayerAttributeOption.OPT_WHITE,
+                1: PlayerAttributeOption.OPT_BLACK,
+                2: PlayerAttributeOption.OPT_RED,
+                3: PlayerAttributeOption.OPT_BLUE,
+                4: PlayerAttributeOption.OPT_YELLOW,
+                5: PlayerAttributeOption.OPT_GREEN,
+                6: PlayerAttributeOption.OPT_PURPLE,
+                7: PlayerAttributeOption.OPT_CYAN,
+            }
+        )
+        return options_by_value
+
+    @property
+    def array_opts_necklace_color(self):
+        """
+        Return byte array options.
+        """
+        return self.att_class_array_opts_necklace_color()
 
     @classmethod
     def att_class_hidden(cls):
@@ -131,10 +161,21 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
 
         return label
 
+    def get_necklace_color_label(self):
+        value = self.get_value()
+        value = get_lowest_byte_value(value, 8)
+        label = self.array_opts_necklace_color[value]
+        return label
+
     def get_label(self):
         wristband_type_label = self.get_wristband_type_label()
         wristband_color_label = self.get_wristband_color_label()
-        return (wristband_type_label, wristband_color_label)
+        necklace_color_label = self.get_necklace_color_label()
+        return (
+            wristband_type_label,
+            wristband_color_label,
+            necklace_color_label,
+        )
 
     def set_value(self, value):
         of_data = self.player.option_file.data
@@ -149,7 +190,9 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
         if first_opt_value != 0:
             second_opt_value = self.array_opts_wristband_color.inverse[label[1]]
 
-        return first_opt_value + second_opt_value
+        third_opt_value = self.array_opts_necklace_color.inverse[label[2]]
+
+        return first_opt_value + second_opt_value + third_opt_value
 
     def set_value_from_label(self, label):
         value = self.get_value_from_label(label)
@@ -158,12 +201,15 @@ class PlayerAttributeWristbandTypeColor(PlayerAttribute):
 
     def create_child_attributes(self):
         """
-        Create Wristband Type and Color attributes
+        Create Wristband Type and Color and Necklace Color attributes
         and link to this attribute
         """
         self.wristband_type = PlayerAttributeWristbandType(
             self.player, parent=self
         )
         self.wristband_color = PlayerAttributeWristbandColor(
+            self.player, parent=self
+        )
+        self.necklace_color = PlayerAttributeNecklaceColor(
             self.player, parent=self
         )
