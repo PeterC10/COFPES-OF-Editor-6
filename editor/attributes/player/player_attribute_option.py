@@ -1,11 +1,13 @@
 class PlayerAttributeOption:
     OPT_NONE = "NONE"
 
-    OPT_Y = "Y"
-    OPT_N = "N"
-    OPT_L = "L"
-    OPT_R = "R"
+    OPT_A = "A"
     OPT_B = "B"
+    OPT_C = "C"
+    OPT_L = "L"
+    OPT_N = "N"
+    OPT_R = "R"
+    OPT_Y = "Y"
 
     OPT_0 = "0"
     OPT_1 = "1"
