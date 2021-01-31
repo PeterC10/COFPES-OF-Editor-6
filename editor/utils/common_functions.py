@@ -1,3 +1,6 @@
+import random
+
+
 def bytes_to_int(ba, a):
     ia = [ba[a + i] for i in range(4)]
     return ia[0] | (ia[1] << 8) | (ia[2] << 16) | (ia[3] << 24)
@@ -23,3 +26,6 @@ def get_lowest_byte_value(b, bf):
 
 def round_down(n, d):
     return n - (n % d)
+
+def get_random_value_from_list(l):
+    return random.choice(l)
