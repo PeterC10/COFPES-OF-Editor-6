@@ -14,10 +14,12 @@ class Player:
     last_edit = first_edit + total_edit
     first_unused = 4784
     first_ml = 4414
+    last_ml = 4436
     first_shop = 4437
     first_youth = 4597
     first_old = 4774
     first_classic = 1312
+    last_classic = 1472
     first_club = 1473
     first_pes_united = 3954
 
@@ -37,6 +39,20 @@ class Player:
         or equal to the first edit address.
         """
         return self.idx >= self.first_edit
+
+    @property
+    def is_ml(self):
+        """
+        Return true if the player is a Master League default player.
+        """
+        return self.idx >= self.first_ml and self.idx <= self.last_ml
+
+    @property
+    def is_classic(self):
+        """
+        Return true if the player is a classic player.
+        """
+        return self.idx >= self.first_classic and self.idx <= self.last_classic
 
     @property
     def offset(self):
