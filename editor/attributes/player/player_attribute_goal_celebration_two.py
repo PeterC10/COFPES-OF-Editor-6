@@ -29,10 +29,6 @@ class PlayerAttributeGoalCelebrationTwo(PlayerAttribute):
     def att_class_array_opts(cls):
         return None
 
-    @classmethod
-    def att_class_hidden(cls):
-        return True
-
     def get_raw_value(self):
         """
         Get byte value currently set in player's byte array
