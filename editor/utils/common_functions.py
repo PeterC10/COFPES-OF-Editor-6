@@ -27,5 +27,6 @@ def get_lowest_byte_value(b, bf):
 def round_down(n, d):
     return n - (n % d)
 
+
 def get_random_value_from_list(l):
     return random.choice(l)
