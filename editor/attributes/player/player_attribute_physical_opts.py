@@ -68,7 +68,7 @@ class PlayerAttributePhysicalLinkedOpts():
         return (first_label, second_label)
 
     @classmethod
-    def get_value_from_label(self, label):
+    def get_value_from_label(cls, label):
         first_opt_value = (
             PlayerAttributePhysicalLinkedOpts.FIRST_OPT_BY_VALUE.inverse[
                 label[0]
