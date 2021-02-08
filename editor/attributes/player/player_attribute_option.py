@@ -75,3 +75,6 @@ class PlayerAttributeOption:
     OPT_BUILD = "BUILD"
     OPT_SPECIAL = "SPECIAL"
     OPT_PRESET = "PRESET"
+
+    OPT_PATTERN = "PATTERN"
+    OPT_RGB = "RGB"
