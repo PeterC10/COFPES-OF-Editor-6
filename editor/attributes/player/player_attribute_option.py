@@ -6,7 +6,9 @@ class PlayerAttributeOption:
     OPT_C = "C"
     OPT_L = "L"
     OPT_N = "N"
+    OPT_O = "O"
     OPT_R = "R"
+    OPT_S = "S"
     OPT_Y = "Y"
 
     OPT_0 = "0"
