@@ -13,7 +13,7 @@ class PlayerAttributeNeckWarmer(PlayerAttribute):
 
     @classmethod
     def att_class_type(cls):
-        return PlayerAttributeTypes.Appearance
+        return PlayerAttributeTypes.Accessories
 
     def get_raw_value(self):
         return self.parent.get_value()
