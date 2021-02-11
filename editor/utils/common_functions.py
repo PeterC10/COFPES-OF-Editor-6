@@ -30,3 +30,7 @@ def round_down(n, d):
 
 def get_random_value_from_list(l):
     return random.choice(l)
+
+
+def replace_tuple_at_index(t, i, v):
+    return t[:i] + (v,) + t[i + 1 :]
