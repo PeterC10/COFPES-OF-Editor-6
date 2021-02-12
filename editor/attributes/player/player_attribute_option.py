@@ -69,6 +69,7 @@ class PlayerAttributeOption:
     OPT_STANDARD = "STANDARD"
     OPT_LONG = "LONG"
     OPT_AUTO = "AUTO"
+    OPT_UNTUCKED = "UNTUCKED"
 
     OPT_GK = "GK"
     OPT_SW = "SW"
