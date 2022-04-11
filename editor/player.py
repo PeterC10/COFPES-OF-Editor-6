@@ -112,14 +112,14 @@ class Player:
 
                 name = f"{prefix} (ID: {self.idx})"
 
-        self._name = name
+        self.__name = name
 
     @property
     def name(self):
         """
         Return player name.
         """
-        return self._name
+        return self.__name
 
     @name.setter
     def name(self, name):
@@ -135,7 +135,7 @@ class Player:
         for i, byte in enumerate(player_name_bytes):
             self.option_file.data[self.address + i] = byte
 
-        self._name = new_name
+        self.__name = new_name
 
     def set_shirt_name_from_of(self):
         """
@@ -147,14 +147,14 @@ class Player:
             + self.shirt_name_bytes_length
         ]
 
-        self._shirt_name = name_byte_array.partition(b"\0")[0].decode()
+        self.__shirt_name = name_byte_array.partition(b"\0")[0].decode()
 
     @property
     def shirt_name(self):
         """
         Return player shirt name.
         """
-        return self._shirt_name
+        return self.__shirt_name
 
     @shirt_name.setter
     def shirt_name(self, shirt_name):
@@ -168,4 +168,4 @@ class Player:
         for i, byte in enumerate(player_shirt_name_bytes):
             self.option_file.data[shirt_name_address + i] = byte
 
-        self._shirt_name = new_name
+        self.__shirt_name = new_name
