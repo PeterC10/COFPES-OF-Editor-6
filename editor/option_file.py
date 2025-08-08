@@ -159,10 +159,10 @@ class OptionFile:
         for i in range(0, len(self.of_block)):
             checksum = 0
 
-            for a in range(
-                self.of_block[i], self.of_block[i] + self.of_block_size[i], 4
-            ):
+            a = self.of_block[i]
+            while a + 4 <= self.of_block[i] + self.of_block_size[i]:
                 checksum += bytes_to_int(self.data, a)
+                a += 4
 
             self.data[self.of_block[i] - 8] = checksum & 0x000000FF
             self.data[self.of_block[i] - 7] = (
