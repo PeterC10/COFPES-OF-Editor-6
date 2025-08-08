@@ -133,3 +133,6 @@ dmypy.json
 
 # Dev files and folders
 dev
+
+# PES6 Option Files
+KONAMI-WIN32PES6OPT
