@@ -34,8 +34,13 @@ class Club:
         name_byte_array = self.option_file.data[
             self.name_address : self.name_address + (self.max_name_size + 1)
         ]
-
-        self.name = name_byte_array.partition(b"\0")[0].decode()
+        
+        # Find null terminator and decode
+        null_pos = name_byte_array.find(b'\0')
+        if null_pos != -1:
+            name_byte_array = name_byte_array[:null_pos]
+        
+        self.name = name_byte_array.decode('latin-1', errors='ignore')
 
     def set_tla(self):
         """
@@ -44,8 +49,13 @@ class Club:
         tla_byte_array = self.option_file.data[
             self.tla_address : self.tla_address + (self.max_tla_size + 1)
         ]
-
-        self.tla = tla_byte_array.partition(b"\0")[0].decode()
+        
+        # Find null terminator and decode
+        null_pos = tla_byte_array.find(b'\0')
+        if null_pos != -1:
+            tla_byte_array = tla_byte_array[:null_pos]
+        
+        self.tla = tla_byte_array.decode('latin-1', errors='ignore')
 
     def update_name(self, name):
         """

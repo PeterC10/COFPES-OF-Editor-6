@@ -90,13 +90,15 @@ class Player:
             all_name_bytes = self.option_file.data[
                 self.address : self.address + self.name_bytes_length
             ]
-            name_only_bytes = bytearray(self.name_bytes_length // 2)
-
-            for i in range(0, self.name_bytes_length, 2):
-                name_only_bytes[i // 2] = all_name_bytes[i]
-
-            name = name_only_bytes.partition(b"\0")[0]
-            name = "".join(map(chr, name))
+            # Extract every other byte (skip null bytes)
+            name_only_bytes = all_name_bytes[::2]
+            
+            # Find null terminator
+            null_pos = name_only_bytes.find(b'\0')
+            if null_pos != -1:
+                name_only_bytes = name_only_bytes[:null_pos]
+            
+            name = name_only_bytes.decode('latin-1', errors='ignore')
 
             if not name:
                 no_name_prefixes = {
@@ -109,6 +111,8 @@ class Player:
                     if self.idx >= address:
                         prefix = address_prefix
                         break
+                else:
+                    prefix = "Unknown"
 
                 name = f"{prefix} (ID: {self.idx})"
 

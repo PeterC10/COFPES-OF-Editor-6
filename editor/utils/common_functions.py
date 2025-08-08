@@ -2,8 +2,7 @@ import random
 
 
 def bytes_to_int(ba, a):
-    ia = [ba[a + i] for i in range(4)]
-    return ia[0] | (ia[1] << 8) | (ia[2] << 16) | (ia[3] << 24)
+    return ba[a] | (ba[a + 1] << 8) | (ba[a + 2] << 16) | (ba[a + 3] << 24)
 
 
 def zero_fill_right_shift(val, n):

@@ -1,6 +1,5 @@
 import os
 import itertools
-
 from enum import Enum, auto
 
 from .option_file_data import (
@@ -30,11 +29,35 @@ class OptionFile:
         self.data = bytearray()
         self.file_name = ""
         self.game_type = None
+        self._cache = {}
 
         self.read_option_file()
 
         self.set_clubs()
         self.set_players()
+
+    def _get_memoryview(self, start=None, end=None):
+        """
+        Get a memoryview of the data for efficient slicing operations.
+        """
+        if start is None and end is None:
+            return memoryview(self.data)
+        elif end is None:
+            return memoryview(self.data)[start:]
+        else:
+            return memoryview(self.data)[start:end]
+
+    def _get_cached_data(self, key, default=None):
+        """
+        Get cached data or return default if not found.
+        """
+        return self._cache.get(key, default)
+
+    def _set_cached_data(self, key, value):
+        """
+        Set cached data.
+        """
+        self._cache[key] = value
 
     def get_game_type(self, file_name):
         """
@@ -50,18 +73,16 @@ class OptionFile:
         """
         Decrypt supplied file and set OF data.
         """
-        of_file = open(self.file_location, "rb")
-        file_name = os.path.basename(of_file.name)
-        self.file_name = file_name
-        self.game_type = self.get_game_type(file_name)
+        with open(self.file_location, "rb") as of_file:
+            file_name = os.path.basename(of_file.name)
+            self.file_name = file_name
+            self.game_type = self.get_game_type(file_name)
 
-        file_contents = of_file.read()
-        of_file.close()
-
-        self.data = bytearray(file_contents)
+            file_contents = of_file.read()
+            self.data = bytearray(file_contents)
+        
         self.convert_data()
         self.decrypt()
-
         return True
 
     def save_option_file(self, file_location=None):
@@ -79,13 +100,11 @@ class OptionFile:
         self.checksums()
         self.convert_data()
 
-        of_file = open(file_location, "wb")
-        of_file.write(self.data)
-        of_file.close()
+        with open(file_location, "wb") as of_file:
+            of_file.write(self.data)
 
         self.convert_data()
         self.decrypt()
-
         return True
 
     def convert_data(self):
@@ -108,11 +127,10 @@ class OptionFile:
         """
         for i in range(1, len(self.of_block)):
             k = 0
-            a = self.of_block[i]
-            while True:
-                if a + 4 > self.of_block[i] + self.of_block_size[i]:
-                    break
-
+            start_addr = self.of_block[i]
+            end_addr = start_addr + self.of_block_size[i]
+            
+            for a in range(start_addr, end_addr - 3, 4):
                 c = bytes_to_int(self.data, a)
                 p = ((c - self.of_key[k]) + 0x7AB3684C) ^ 0x7AB3684C
 
@@ -121,11 +139,7 @@ class OptionFile:
                 self.data[a + 2] = zero_fill_right_shift(p, 16) & 0x000000FF
                 self.data[a + 3] = zero_fill_right_shift(p, 24) & 0x000000FF
 
-                k += 1
-                if k == 446:
-                    k = 0
-
-                a += 4
+                k = (k + 1) % 446
 
     def encrypt(self):
         """
@@ -133,11 +147,10 @@ class OptionFile:
         """
         for i in range(1, len(self.of_block)):
             k = 0
-            a = self.of_block[i]
-            while True:
-                if a + 4 > self.of_block[i] + self.of_block_size[i]:
-                    break
-
+            start_addr = self.of_block[i]
+            end_addr = start_addr + self.of_block_size[i]
+            
+            for a in range(start_addr, end_addr - 3, 4):
                 p = bytes_to_int(self.data, a)
                 c = self.of_key[k] + ((p ^ 0x7AB3684C) - 0x7AB3684C)
 
@@ -146,55 +159,40 @@ class OptionFile:
                 self.data[a + 2] = zero_fill_right_shift(c, 16) & 0x000000FF
                 self.data[a + 3] = zero_fill_right_shift(c, 24) & 0x000000FF
 
-                k += 1
-                if k == 446:
-                    k = 0
-
-                a += 4
+                k = (k + 1) % 446
 
     def checksums(self):
         """
         Set checksums.
         """
-        for i in range(0, len(self.of_block)):
+        for i in range(len(self.of_block)):
             checksum = 0
-
-            a = self.of_block[i]
-            while a + 4 <= self.of_block[i] + self.of_block_size[i]:
+            start_addr = self.of_block[i]
+            end_addr = start_addr + self.of_block_size[i]
+            
+            for a in range(start_addr, end_addr - 3, 4):
                 checksum += bytes_to_int(self.data, a)
-                a += 4
 
-            self.data[self.of_block[i] - 8] = checksum & 0x000000FF
-            self.data[self.of_block[i] - 7] = (
-                zero_fill_right_shift(checksum, 8) & 0x000000FF
-            )
-            self.data[self.of_block[i] - 6] = (
-                zero_fill_right_shift(checksum, 16) & 0x000000FF
-            )
-            self.data[self.of_block[i] - 5] = (
-                zero_fill_right_shift(checksum, 24) & 0x000000FF
-            )
+            self.data[start_addr - 8] = checksum & 0x000000FF
+            self.data[start_addr - 7] = (checksum >> 8) & 0x000000FF
+            self.data[start_addr - 6] = (checksum >> 16) & 0x000000FF
+            self.data[start_addr - 5] = (checksum >> 24) & 0x000000FF
 
     def set_clubs(self):
         """
         Load all clubs from OF data and add to clubs list.
         """
-        self.clubs = []
-        for i in range(Club.total):
-            club = Club(self, i)
-            self.clubs.append(club)
+        self.clubs = [Club(self, i) for i in range(Club.total)]
 
     def set_players(self):
         """
         Load all players from OF data and add to players list.
         """
-        self.players = []
-        for i in itertools.chain(
+        player_indices = list(itertools.chain(
             range(1, Player.total + 1),
             range(Player.first_edit, Player.last_edit),
-        ):
-            player = Player(self, i)
-            self.players.append(player)
+        ))
+        self.players = [Player(self, i) for i in player_indices]
 
 
 class GameType(Enum):
